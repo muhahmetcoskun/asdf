@@ -1,0 +1,197 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card px-6 py-6">
+            <p-toast></p-toast>
+            <p-toolbar styleClass="mb-4">
+                <ng-template pTemplate="left">
+                    <div class="my-2">
+                        <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success mr-2"
+                            (click)="openNew()"></button>
+                        <button pButton pRipple label="Delete" icon="pi pi-trash" class="p-button-danger"
+                            (click)="deleteSelectedtatilGunus()"
+                            [disabled]="!selectedtatilGunus || !selectedtatilGunus.length"></button>
+                    </div>
+                </ng-template>
+
+                <ng-template pTemplate="right">
+                    <button pButton pRipple label="Export" icon="pi pi-upload" class="p-button-help"
+                        (click)="dt.exportCSV()"></button>
+                </ng-template>
+            </p-toolbar>
+
+            <p-table #dt [value]="lastikOtels" [columns]="cols" [rows]="10" [paginator]="true"
+                [rowsPerPageOptions]="[10,20,30]" [showCurrentPageReport]="true"
+                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                [(selection)]="selectedlastikOtels" selectionMode="multiple" [rowHover]="true" dataKey="id">
+
+                <ng-template pTemplate="header">
+                    <tr>
+
+                        <th pSortableColumn="id">Id <p-sortIcon field="id"></p-sortIcon></th>
+                        <th pSortableColumn="aracPlaka">aracPlaka <p-sortIcon field="aracPlaka"></p-sortIcon></th>
+                        <th pSortableColumn="lastikTipi">lastikTipi <p-sortIcon field="lastikTipi"></p-sortIcon></th>
+                        <th pSortableColumn="lastikBoyut">lastikBoyut <p-sortIcon field="lastikBoyut"></p-sortIcon></th>
+                        <th pSortableColumn="tckn">tckn <p-sortIcon field="tckn"></p-sortIcon></th>
+                        <th pSortableColumn="adSoyad">adSoyad <p-sortIcon field="adSoyad"></p-sortIcon></th>
+                        <th pSortableColumn="ucret">ucret <p-sortIcon field="ucret"></p-sortIcon></th>
+                        <th pSortableColumn="birakmaTarihi">birakmaTarihi <p-sortIcon
+                                field="birakmaTarihi"></p-sortIcon></th>
+                        <th pSortableColumn="almaTarihi">almaTarihi <p-sortIcon field="almaTarihi"></p-sortIcon></th>
+                        <th pSortableColumn="lastikYeri">lastikYeri <p-sortIcon field="lastikYeri"></p-sortIcon></th>
+                        <th pSortableColumn="aktif">Aktif <p-sortIcon field="aktif"></p-sortIcon></th>
+
+                        <th></th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-lastikOtel>
+                    <tr>
+
+                        <td style="width:14%; min-width:10rem;"><span class="p-column-title">Id</span>
+                            {{ lastikOtel.id}}
+                        </td>
+                        <td style="width:14%; min-width:10rem;">
+                            <span class="p-column-title">aracPlaka</span>
+                            {{lastikOtel.aracPlaka}}
+                        </td>
+                        <td style="width:14%; min-width:8rem;">
+                            <span class="p-column-title">lastikTipi</span>
+                            {{lastikOtel.lastikTipi }}
+                        </td>
+                        <td style="width:14%; min-width:8rem;">
+                            <span class="p-column-title">lastikBoyut</span>
+                            {{lastikOtel.lastikBoyut }}
+                        </td>
+                        <td style="width:14%; min-width:8rem;">
+                            <span class="p-column-title">tckn</span>
+                            {{lastikOtel.tckn }}
+                        </td>
+                        <td style="width:14%; min-width:8rem;">
+                            <span class="p-column-title">adSoyad</span>
+                            {{lastikOtel.adSoyad }}
+                        </td>
+                        <td style="width:14%; min-width:8rem;">
+                            <span class="p-column-title">ucret</span>
+                            {{lastikOtel.ucret }}
+                        </td>
+                        <td style="width:14%; min-width:8rem;">
+                            <span class="p-column-title">birakmaTarihi</span>
+                            {{lastikOtel.birakmaTarihi }}
+                        </td>
+                        <td style="width:14%; min-width:8rem;">
+                            <span class="p-column-title">almaTarihi</span>
+                            {{lastikOtel.almaTarihi }}
+                        </td>
+                        <td style="width:14%; min-width:8rem;">
+                            <span class="p-column-title">lastikYeri</span>
+                            {{lastikOtel.lastikYeri }}
+                        </td>
+                        <td style="width:14%; min-width:8rem;">
+                            <span class="p-column-title">Aktif</span>
+                            {{lastikOtel.aktif }}
+                        </td>
+
+                        <td>
+                            <div class="flex">
+                                <button pButton pRipple icon="pi pi-pencil"
+                                    class="p-button-rounded p-button-success mr-2"
+                                    (click)="editlastikOtel(lastikOtel)"></button>
+                                <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning"
+                                    (click)="deletetatilGunu(lastikOtel)"></button>
+                            </div>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+
+            <p-dialog [(visible)]="lastikOtelDialog" [style]="{width: '450px'}" header="Lastik Otel Kayıtlar"
+                [modal]="true" class="p-fluid">
+                <ng-template pTemplate="content">
+
+                    <div class="field">
+                        <label for="aracPlaka">Araç Plakası</label>
+                        <input type="text" pInputText id="aracPlaka" [(ngModel)]="lastikOtel.aracPlaka" required
+                            autofocus [ngClass]="{'ng-invalid ng-dirty' : submitted && !lastikOtel.aracPlaka}" />
+                        <small class="ng-dirty ng-invalid" *ngIf="submitted && !lastikOtel.aracPlaka">Araç Plakası
+                            Giriniz.</small>
+                    </div>
+                    <div class="field">
+                        <label for="lastikTipi">Lastik Tipi</label>
+                        <input type="text" pInputText id="lastikTipi" [(ngModel)]="lastikOtel.lastikTipi" required
+                            [ngClass]="{'ng-invalid ng-dirty' : submitted && !lastikOtel.lastikTipi}" />
+                        <small class="ng-dirty ng-invalid" *ngIf="submitted && !lastikOtel.lastikTipi">Lastik Tipi
+                            Giriniz.</small>
+                    </div>
+                    <div class="field">
+                        <label for="lastikBoyut">Lastik Boyut</label>
+                        <input type="text" pInputText id="lastikBoyut" [(ngModel)]="lastikOtel.lastikBoyut" required
+                            [ngClass]="{'ng-invalid ng-dirty' : submitted && !lastikOtel.lastikBoyut}" />
+                        <small class="ng-dirty ng-invalid" *ngIf="submitted && !lastikOtel.lastikBoyut">Lastik Boyut
+                            Giriniz.</small>
+                    </div>
+                    <div class="field">
+                        <label for="tckn">T.C.Kimlik No.</label>
+                        <input type="text" pInputText id="tckn" [(ngModel)]="lastikOtel.tckn" required
+                            [ngClass]="{'ng-invalid ng-dirty' : submitted && !lastikOtel.tckn}" />
+                        <small class="ng-dirty ng-invalid" *ngIf="submitted && !lastikOtel.tckn">T.C.Kimlik No.
+                            Giriniz</small>
+                    </div>
+
+                    <div class="field">
+                        <label for="adSoyad">Ad Soyad</label>
+                        <input type="text" pInputText id="adSoyad" [(ngModel)]="lastikOtel.adSoyad" required
+                            [ngClass]="{'ng-invalid ng-dirty' : submitted && !lastikOtel.adSoyad}" />
+                        <small class="ng-dirty ng-invalid" *ngIf="submitted && !lastikOtel.adSoyad">Ad Soyad
+                            Giriniz.</small>
+                    </div>
+                    <div class="formgrid grid">
+                        <div class="field col">
+                            <label for="ucret">Ücret</label>
+                            <p-inputNumber id="ucret" [(ngModel)]="lastikOtel.ucret" mode="currency" currency="TRY"
+                                locale="tr-TR"></p-inputNumber>
+                        </div>
+
+                    </div>
+                    <div class="field">
+                        <label for="birakmaTarihi">Bırakma Tarihi</label>
+                        <p-calendar id="birakmaTarihi" [(ngModel)]="lastikOtel.birakmaTarihi"></p-calendar>
+                        <small class="ng-dirty ng-invalid" *ngIf="submitted && !lastikOtel.birakmaTarihi">Bırakma Tarihi
+                            Giriniz.</small>
+                    </div>
+                    <div class="field">
+                        <label for="almaTarihi">Alma Tarihi</label>
+                        <p-calendar id="almaTarihi" [(ngModel)]="lastikOtel.almaTarihi"></p-calendar>
+                        <small class="ng-dirty ng-invalid" *ngIf="submitted && !lastikOtel.almaTarihi">Alma Tarihi
+                            Giriniz.</small>
+                    </div>
+
+
+                    <div class="field">
+                        <label for="lastikYeri">Lastik Yeri</label>
+                        <input type="text" pInputText id="lastikYeri" [(ngModel)]="lastikOtel.lastikYeri" required
+                            [ngClass]="{'ng-invalid ng-dirty' : submitted && !lastikOtel.lastikYeri}" />
+                        <small class="ng-dirty ng-invalid" *ngIf="submitted && !lastikOtel.lastikYeri">Name is
+                            required.</small>
+                    </div>
+
+
+                    <div class="formgrid grid" style="display: none;">
+                        <div class="field col">
+                            <label for="aktif">aktif</label>
+                            <p-inputNumber id="aktif" [(ngModel)]="lastikOtel.aktif"  
+                               ></p-inputNumber>
+                        </div>
+
+                    </div>
+                </ng-template>
+
+                <ng-template pTemplate="footer">
+                    <button pButton pRipple label="Çık" icon="pi pi-times" class="p-button-text"
+                        (click)="hideDialog()"></button>
+                    <button pButton pRipple label="Kaydet" icon="pi pi-check" class="p-button-text"
+                        (click)="saveLastikOtel()"></button>
+                </ng-template>
+            </p-dialog>
+        </div>
+
+    </div>
+</div>

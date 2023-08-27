@@ -1,0 +1,60 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card px-6 py-6">
+            <p-toast></p-toast>
+            <p-toolbar styleClass="mb-4">
+                <ng-template pTemplate="left">
+                    <div class="my-2">
+                        <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success mr-2" (click)="openNew()"></button>
+                        <button pButton pRipple label="Delete" icon="pi pi-trash" class="p-button-danger" (click)="deleteSelectedtatilGunus()" [disabled]="!selectedtatilGunus || !selectedtatilGunus.length"></button>
+                    </div>
+                </ng-template>
+
+                <ng-template pTemplate="right">
+                    <button pButton pRipple label="Export" icon="pi pi-upload" class="p-button-help" (click)="dt.exportCSV()"></button>
+                </ng-template>
+            </p-toolbar>
+
+            <p-table #dt [value]="tatilGunus" [columns]="cols"  [rows]="10"  [paginator]="true" [rowsPerPageOptions]="[10,20,30]" [showCurrentPageReport]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [(selection)]="selectedtatilGunus" selectionMode="multiple" [rowHover]="true" dataKey="id">
+                
+                <ng-template pTemplate="header">
+                    <tr>
+                    
+                        <th pSortableColumn="id">Id <p-sortIcon field="id"></p-sortIcon></th>
+                        <th pSortableColumn="tarih">Tarih <p-sortIcon field="tarih"></p-sortIcon></th>                      
+                        <th pSortableColumn="aktif">Aktif <p-sortIcon field="aktif"></p-sortIcon></th>
+                        
+                        <th></th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-tatilGunu>
+                    <tr>
+                       
+                        <td style="width:14%; min-width:10rem;"><span class="p-column-title">Id</span>
+                            {{ tatilGunu.id}}
+                        </td>
+                        <td style="width:14%; min-width:10rem;">
+                            <span class="p-column-title">Tarih</span>
+                            {{tatilGunu.tarih}}
+                        </td>
+                       
+                        <td style="width:14%; min-width:8rem;">
+                            <span class="p-column-title">Aktif</span>
+                            {{tatilGunu.aktif }}
+                        </td>
+                        
+                        <td>
+                            <div class="flex">
+                                <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="edittatilGunu(tatilGunu)"></button>
+                                <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deletetatilGunu(tatilGunu)"></button>
+                            </div>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        
+            
+        </div>
+
+    </div>
+</div>
